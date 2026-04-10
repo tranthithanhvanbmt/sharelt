@@ -1,10 +1,10 @@
 :root {
-    --brand-bg: #071023;
-    --brand-bg-soft: #1a2946;
-    --brand-accent: #0ea5a4;
-    --brand-accent-hover: #0f766e;
-    --brand-highlight: #f59e0b;
-    --brand-text: #e6edf9;
+    --brand-bg: #2c3e50;
+    --brand-bg-soft: #1f2d3a;
+    --brand-accent: #2ecc71;
+    --brand-accent-hover: #27ae60;
+    --brand-highlight: #1abc9c;
+    --brand-text: #ecf0f1;
     --panel-bg: #ffffff;
     --panel-border: #d9e3f2;
     --shadow-soft: 0 12px 28px rgba(15, 23, 42, 0.1);
@@ -12,7 +12,7 @@
 
 body,
 body.login {
-    background: radial-gradient(circle at top right, #dff7f3 0%, #f8fafc 40%, #e9f1ff 100%);
+    background: radial-gradient(circle at top right, #e7f9ef 0%, #f8fafc 45%, #edf9f2 100%);
     color: #10213e;
 }
 
@@ -28,7 +28,7 @@ body.login {
 }
 
 #user-tools a:hover {
-    color: #fcd34d;
+    color: #d1fae5;
 }
 
 .branding-wrap {
@@ -42,7 +42,7 @@ body.login {
     font-size: 12px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #9eb0cd;
+    color: #b8d7ca;
 }
 
 #site-name a {
@@ -51,13 +51,13 @@ body.login {
 }
 
 div.breadcrumbs {
-    background: #eff7ff;
-    border-bottom: 1px solid #d4e5fb;
-    color: #1e3a8a;
+    background: #ecfdf3;
+    border-bottom: 1px solid #d1fae5;
+    color: #14532d;
 }
 
 div.breadcrumbs a {
-    color: #1d4ed8;
+    color: #166534;
 }
 
 #content,
@@ -72,20 +72,20 @@ div.breadcrumbs a {
 
 .module caption,
 .module h2 {
-    background: #f7faff;
-    color: #0b1f3d;
-    border-bottom: 1px solid #dce8f7;
+    background: #f0fdf4;
+    color: #14532d;
+    border-bottom: 1px solid #dcfce7;
     border-radius: 14px 14px 0 0;
     font-weight: 700;
 }
 
 a:link,
 a:visited {
-    color: #0f4c81;
+    color: #166534;
 }
 
 a:hover {
-    color: #0b3a63;
+    color: #14532d;
 }
 
 button,
@@ -118,8 +118,8 @@ input.default[type="submit"] {
 
 .button.default:hover,
 input.default[type="submit"]:hover {
-    background: #d97706;
-    border-color: #d97706;
+    background: #0f766e;
+    border-color: #0f766e;
 }
 
 tr:nth-child(even) {
@@ -127,7 +127,7 @@ tr:nth-child(even) {
 }
 
 tr:hover {
-    background: #eaf6ff;
+    background: #ecfdf5;
 }
 
 #changelist-filter {
@@ -138,8 +138,8 @@ tr:hover {
 }
 
 #changelist-filter h2 {
-    background: #eef6ff;
-    color: #123a63;
+    background: #ecfdf5;
+    color: #166534;
 }
 
 .login #container {
@@ -171,9 +171,9 @@ select {
 input:focus,
 textarea:focus,
 select:focus {
-    border-color: #0ea5a4;
+    border-color: #2ecc71;
     outline: 0;
-    box-shadow: 0 0 0 2px rgba(14, 165, 164, 0.15);
+    box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.18);
 }
 
 @media (max-width: 768px) {
