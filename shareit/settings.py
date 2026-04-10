@@ -5,24 +5,25 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-insecure-shareit-dev-key"
-DEBUG = os.getenv("DEBUG", "True").lower() == "true"
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 allowed_hosts_env = os.getenv("ALLOWED_HOSTS", "")
 ALLOWED_HOSTS = [h.strip() for h in allowed_hosts_env.split(",") if h.strip()]
-ALLOWED_HOSTS += ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS += ["127.0.0.1", "localhost", "sharelt.onrender.com", ".onrender.com"]
 
 # Render exposes public hostname through this variable.
 render_hostname = os.getenv("RENDER_EXTERNAL_HOSTNAME", "").strip()
 if render_hostname:
     ALLOWED_HOSTS.append(render_hostname)
 
-# Keep this as a fallback for onrender deployments when ALLOWED_HOSTS was not set.
-if ".onrender.com" not in ALLOWED_HOSTS:
-    ALLOWED_HOSTS.append(".onrender.com")
+# Remove duplicates while preserving order.
+ALLOWED_HOSTS = list(dict.fromkeys(ALLOWED_HOSTS))
 
 CSRF_TRUSTED_ORIGINS = []
 if render_hostname:
     CSRF_TRUSTED_ORIGINS.append(f"https://{render_hostname}")
+CSRF_TRUSTED_ORIGINS.append("https://sharelt.onrender.com")
+CSRF_TRUSTED_ORIGINS = list(dict.fromkeys(CSRF_TRUSTED_ORIGINS))
 
 INSTALLED_APPS = [
     "django.contrib.admin",
