@@ -1,28 +1,34 @@
 :root {
-    --brand-bg: #0f172a;
-    --brand-bg-soft: #1e293b;
-    --brand-accent: #22c55e;
-    --brand-accent-hover: #16a34a;
-    --brand-text: #e2e8f0;
+    --brand-bg: #071023;
+    --brand-bg-soft: #1a2946;
+    --brand-accent: #0ea5a4;
+    --brand-accent-hover: #0f766e;
+    --brand-highlight: #f59e0b;
+    --brand-text: #e6edf9;
     --panel-bg: #ffffff;
-    --panel-border: #e2e8f0;
-    --shadow-soft: 0 10px 28px rgba(15, 23, 42, 0.08);
+    --panel-border: #d9e3f2;
+    --shadow-soft: 0 12px 28px rgba(15, 23, 42, 0.1);
 }
 
 body,
 body.login {
-    background: radial-gradient(circle at top right, #e2fbe9 0%, #f8fafc 40%, #eef2ff 100%);
+    background: radial-gradient(circle at top right, #dff7f3 0%, #f8fafc 40%, #e9f1ff 100%);
+    color: #10213e;
 }
 
 #header {
-    background: linear-gradient(120deg, var(--brand-bg), var(--brand-bg-soft));
+    background: linear-gradient(118deg, var(--brand-bg), var(--brand-bg-soft));
     color: var(--brand-text);
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
+    box-shadow: 0 10px 24px rgba(7, 16, 35, 0.28);
 }
 
 #header a:link,
 #header a:visited {
     color: #f8fafc;
+}
+
+#user-tools a:hover {
+    color: #fcd34d;
 }
 
 .branding-wrap {
@@ -36,7 +42,7 @@ body.login {
     font-size: 12px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #94a3b8;
+    color: #9eb0cd;
 }
 
 #site-name a {
@@ -45,13 +51,13 @@ body.login {
 }
 
 div.breadcrumbs {
-    background: #ecfdf3;
-    border-bottom: 1px solid #d1fae5;
-    color: #14532d;
+    background: #eff7ff;
+    border-bottom: 1px solid #d4e5fb;
+    color: #1e3a8a;
 }
 
 div.breadcrumbs a {
-    color: #166534;
+    color: #1d4ed8;
 }
 
 #content,
@@ -66,11 +72,20 @@ div.breadcrumbs a {
 
 .module caption,
 .module h2 {
-    background: #f8fafc;
-    color: #0f172a;
-    border-bottom: 1px solid #e2e8f0;
+    background: #f7faff;
+    color: #0b1f3d;
+    border-bottom: 1px solid #dce8f7;
     border-radius: 14px 14px 0 0;
     font-weight: 700;
+}
+
+a:link,
+a:visited {
+    color: #0f4c81;
+}
+
+a:hover {
+    color: #0b3a63;
 }
 
 button,
@@ -83,6 +98,7 @@ a.button {
     background: var(--brand-accent);
     color: #ffffff;
     transition: all 0.2s ease;
+    font-weight: 600;
 }
 
 button:hover,
@@ -96,22 +112,22 @@ a.button:hover {
 
 .button.default,
 input.default[type="submit"] {
-    background: #0ea5e9;
-    border-color: #0ea5e9;
+    background: var(--brand-highlight);
+    border-color: var(--brand-highlight);
 }
 
 .button.default:hover,
 input.default[type="submit"]:hover {
-    background: #0284c7;
-    border-color: #0284c7;
+    background: #d97706;
+    border-color: #d97706;
 }
 
 tr:nth-child(even) {
-    background: #f8fafc;
+    background: #f9fbff;
 }
 
 tr:hover {
-    background: #ecfeff;
+    background: #eaf6ff;
 }
 
 #changelist-filter {
@@ -121,16 +137,43 @@ tr:hover {
     box-shadow: var(--shadow-soft);
 }
 
+#changelist-filter h2 {
+    background: #eef6ff;
+    color: #123a63;
+}
+
 .login #container {
     border: 0;
     border-radius: 16px;
-    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.2);
+    box-shadow: 0 18px 42px rgba(7, 16, 35, 0.25);
     overflow: hidden;
 }
 
 .login #content {
     box-shadow: none;
     border: 0;
+}
+
+.login #header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+    border-radius: 10px;
+    border: 1px solid #cddbed;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #0ea5a4;
+    outline: 0;
+    box-shadow: 0 0 0 2px rgba(14, 165, 164, 0.15);
 }
 
 @media (max-width: 768px) {
