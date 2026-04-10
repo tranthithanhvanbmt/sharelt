@@ -41,7 +41,7 @@
 <div class="row g-4">
     {% for item in items %}
         <div class="col-md-6 col-lg-4">
-            <article class="card h-100 share-item-card">
+            <article class="card h-100 share-item-card item-card">
                 <div class="card-body">
                     {% if item.image %}
                         <img src="{{ item.image.url }}" alt="{{ item.name }}" class="img-fluid rounded mb-3 share-item-image">
@@ -60,13 +60,13 @@
                     <p class="mb-3">
                         Trạng thái:
                         {% if item.is_available %}
-                            <span class="badge text-bg-success">{{ item.status_label }}</span>
+                            <span class="badge badge-available">{{ item.status_label }}</span>
                         {% else %}
-                            <span class="badge text-bg-warning">{{ item.status_label }}</span>
+                            <span class="badge badge-busy">{{ item.status_label }}</span>
                         {% endif %}
                     </p>
 
-                    <a href="{% url 'item_detail' item.id %}" class="btn btn-outline-dark btn-sm">Xem chi tiết</a>
+                    <a href="{% url 'item_detail' item.id %}" class="btn btn-shareit btn-sm">Xem chi tiết</a>
                 </div>
             </article>
         </div>

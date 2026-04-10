@@ -107,6 +107,9 @@ STORAGES = {
     },
 }
 
+# Allow WhiteNoise to find static files directly from apps/static and STATICFILES_DIRS.
+WHITENOISE_USE_FINDERS = True
+
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
