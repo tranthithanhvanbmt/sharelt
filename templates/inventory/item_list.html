@@ -9,6 +9,11 @@
     </div>
     {% if user.is_authenticated %}
         <a class="btn btn-success btn-lg hero-cta" href="{% url 'item_create' %}">+ Đăng món đồ</a>
+    {% else %}
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-light btn-lg hero-cta" href="{% url 'login' %}">Đăng nhập</a>
+            <a class="btn btn-success btn-lg hero-cta" href="{% url 'signup' %}">Đăng ký miễn phí</a>
+        </div>
     {% endif %}
 </section>
 

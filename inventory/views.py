@@ -1,6 +1,8 @@
 from django.contrib import messages
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
@@ -9,6 +11,23 @@ from django.views.generic import CreateView, DetailView, ListView
 
 from .forms import ItemForm, LoanRequestForm, MessageForm
 from .models import BorrowRequest, Conversation, Item
+
+
+def signup(request):
+    if request.user.is_authenticated:
+        return redirect("item_list")
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Tạo tài khoản thành công. Chào mừng bạn đến với ShareIt!")
+            return redirect("item_list")
+    else:
+        form = UserCreationForm()
+
+    return render(request, "registration/signup.html", {"form": form})
 
 
 def refresh_expired_requests():
