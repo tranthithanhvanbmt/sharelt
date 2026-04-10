@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3 class="mb-3">Quản lý đồ cá nhân</h3>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>Món đồ bạn đang đăng</h5>
+        {% for item in items %}
+            <div class="border rounded p-2 mb-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ item.name }}</strong>
+                        <div class="text-muted small">Danh mục: {{ item.category|default:'Khác' }}</div>
+                    </div>
+                    <div>
+                        {% if item.is_available %}
+                            <span class="badge text-bg-success">Sẵn sàng</span>
+                        {% else %}
+                            <span class="badge text-bg-warning">Đang cho mượn</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <a class="btn btn-sm btn-outline-primary mt-2" href="{% url 'item_detail' item.id %}">Xem chi tiết</a>
+            </div>
+        {% empty %}
+            <p class="text-muted mb-0">Bạn chưa đăng món đồ nào.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5>Ai đang hỏi mượn đồ của bạn</h5>
+        {% for borrow_request in pending_requests %}
+            <div class="border rounded p-2 mb-2">
+                <strong>{{ borrow_request.item.name }}</strong> - {{ borrow_request.borrower.username }}
+                <div>{{ borrow_request.start_date }} - {{ borrow_request.end_date }}</div>
+                <div class="mt-2">
+                    <a class="btn btn-sm btn-success" href="{% url 'approve_request' borrow_request.id %}">Đồng ý</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'reject_request' borrow_request.id %}">Từ chối</a>
+                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'conversation_detail' borrow_request.id %}">Nhắn tin</a>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted mb-0">Chưa có yêu cầu mượn nào.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

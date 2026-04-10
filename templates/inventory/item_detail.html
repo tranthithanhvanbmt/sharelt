@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h3>{{ item.name }}</h3>
+        <p class="text-muted">Chủ đồ: {{ item.owner.username }}</p>
+        {% if item.image %}
+            <img src="{{ item.image.url }}" alt="{{ item.name }}" class="img-fluid rounded mb-3" style="max-height: 340px; object-fit: cover;">
+        {% endif %}
+        <p>{{ item.description|default:'Không có mô tả.' }}</p>
+        <p>Trạng thái:
+            {% if item.is_available %}
+                <span class="badge text-bg-success">{{ item.status_label }}</span>
+            {% else %}
+                <span class="badge text-bg-warning">{{ item.status_label }}</span>
+            {% endif %}
+        </p>
+
+        {% if user.is_authenticated and user != item.owner %}
+            <a href="{% url 'request_loan' item.id %}" class="btn btn-primary">Yêu cầu mượn</a>
+        {% endif %}
+    </div>
+</div>
+
+{% if user == item.owner %}
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Yêu cầu chờ duyệt</h5>
+                    {% for borrow_request in pending_requests %}
+                        <div class="border rounded p-2 mb-2">
+                            <div><strong>{{ borrow_request.borrower.username }}</strong> | {{ borrow_request.start_date }} - {{ borrow_request.end_date }}</div>
+                            <div class="mt-2">
+                                <a href="{% url 'conversation_detail' borrow_request.id %}" class="btn btn-sm btn-outline-secondary">Nhắn tin</a>
+                                <a href="{% url 'approve_request' borrow_request.id %}" class="btn btn-sm btn-success">Duyệt</a>
+                                <a href="{% url 'reject_request' borrow_request.id %}" class="btn btn-sm btn-danger">Từ chối</a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-muted mb-0">Không có yêu cầu mới.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Lượt mượn đã duyệt</h5>
+                    {% for borrow_request in approved_requests %}
+                        <div class="border rounded p-2 mb-2">
+                            <div><strong>{{ borrow_request.borrower.username }}</strong> | {{ borrow_request.start_date }} - {{ borrow_request.end_date }}</div>
+                            <div>Trạng thái: {{ borrow_request.get_status_display }}</div>
+                            <div class="mt-2">
+                                <a href="{% url 'conversation_detail' borrow_request.id %}" class="btn btn-sm btn-outline-secondary">Nhắn tin</a>
+                                {% if borrow_request.status == 'approved' %}
+                                    <a href="{% url 'mark_returned' borrow_request.id %}" class="btn btn-sm btn-outline-success">Đánh dấu đã trả</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-muted mb-0">Chưa có lượt mượn đã duyệt.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

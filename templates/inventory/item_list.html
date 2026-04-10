@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="home-hero mb-4">
+    <div class="hero-copy">
+        <p class="hero-kicker">ShareIt Community</p>
+        <h1>Mượn đồ thông minh, kết nối hàng xóm dễ dàng</h1>
+        <p class="hero-subtitle mb-0">Xem các món đồ đang sẵn sàng trong cộng đồng và gửi yêu cầu mượn trong vài giây.</p>
+    </div>
+    {% if user.is_authenticated %}
+        <a class="btn btn-success btn-lg hero-cta" href="{% url 'item_create' %}">+ Đăng món đồ</a>
+    {% endif %}
+</section>
+
+<div class="search-panel mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h3 class="mb-0">Dashboard món đồ sẵn sàng</h3>
+        <span class="text-muted small">{{ items|length }} món đồ</span>
+    </div>
+    <form method="get">
+        <div class="input-group input-group-lg">
+            <input type="text" class="form-control" name="q" value="{{ query }}" placeholder="Tìm theo tên, chủ đồ, danh mục...">
+            <button class="btn btn-dark px-4" type="submit">Tìm</button>
+        </div>
+    </form>
+</div>
+
+<div class="row g-4">
+    {% for item in items %}
+        <div class="col-md-6 col-lg-4">
+            <article class="card h-100 share-item-card">
+                <div class="card-body">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.name }}" class="img-fluid rounded mb-3 share-item-image">
+                    {% else %}
+                        <div class="share-item-image placeholder-glow d-flex align-items-center justify-content-center mb-3">
+                            <span class="text-muted">Chưa có ảnh</span>
+                        </div>
+                    {% endif %}
+
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+                        <h5 class="card-title mb-0">{{ item.name }}</h5>
+                        <span class="badge text-bg-light border">{{ item.category|default:'Khác' }}</span>
+                    </div>
+
+                    <p class="text-muted mb-2">Chủ đồ: {{ item.owner.username }}</p>
+                    <p class="mb-3">
+                        Trạng thái:
+                        {% if item.is_available %}
+                            <span class="badge text-bg-success">{{ item.status_label }}</span>
+                        {% else %}
+                            <span class="badge text-bg-warning">{{ item.status_label }}</span>
+                        {% endif %}
+                    </p>
+
+                    <a href="{% url 'item_detail' item.id %}" class="btn btn-outline-dark btn-sm">Xem chi tiết</a>
+                </div>
+            </article>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="empty-state text-center p-5">
+                <h4 class="mb-2">Chưa có món đồ nào sẵn sàng</h4>
+                <p class="text-muted mb-0">Hãy thử đổi từ khóa tìm kiếm hoặc đăng món đồ đầu tiên cho cộng đồng.</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

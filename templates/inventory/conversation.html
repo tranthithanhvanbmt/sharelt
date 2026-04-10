@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h4 class="mb-1">Chat mượn đồ: {{ borrow_request.item.name }}</h4>
+        <p class="text-muted mb-3">
+            {{ borrow_request.borrower.username }} ↔ {{ borrow_request.item.owner.username }} | {{ borrow_request.start_date }} - {{ borrow_request.end_date }}
+        </p>
+
+        <div class="border rounded p-3 mb-3" style="height: 340px; overflow-y: auto; background: #fafafa;">
+            {% for msg in messages_list %}
+                <div class="mb-2 {% if msg.sender == user %}text-end{% endif %}">
+                    <div>
+                        <span class="badge {% if msg.sender == user %}text-bg-primary{% else %}text-bg-secondary{% endif %}">
+                            {{ msg.sender.username }}
+                        </span>
+                    </div>
+                    <div class="d-inline-block border rounded p-2 mt-1 bg-white">{{ msg.content }}</div>
+                    <div class="small text-muted">{{ msg.created_at|date:'d/m/Y H:i' }}</div>
+                </div>
+            {% empty %}
+                <p class="text-muted mb-0">Chưa có tin nhắn, hãy bắt đầu trao đổi thời gian nhận đồ.</p>
+            {% endfor %}
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+        </form>
+    </div>
+</div>
+{% endblock %}

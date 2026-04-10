@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3 class="mb-3">Lượt mượn của tôi</h3>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>Đang mượn</h5>
+        {% for borrow_request in active %}
+            <div class="border rounded p-2 mb-2">
+                <strong>{{ borrow_request.item.name }}</strong> từ {{ borrow_request.item.owner.username }}
+                <div>{{ borrow_request.start_date }} - {{ borrow_request.end_date }}</div>
+                <a class="btn btn-sm btn-outline-secondary mt-1" href="{% url 'conversation_detail' borrow_request.id %}">Nhắn tin</a>
+            </div>
+        {% empty %}
+            <p class="text-muted mb-0">Hiện tại bạn không mượn món nào.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>Yêu cầu mượn của tôi</h5>
+        {% for borrow_request in borrowed %}
+            <div class="border rounded p-2 mb-2">
+                <strong>{{ borrow_request.item.name }}</strong> | {{ borrow_request.get_status_display }}
+                <div>{{ borrow_request.start_date }} - {{ borrow_request.end_date }}</div>
+                <a class="btn btn-sm btn-outline-secondary mt-1" href="{% url 'conversation_detail' borrow_request.id %}">Mở chat</a>
+            </div>
+        {% empty %}
+            <p class="text-muted mb-0">Bạn chưa tạo yêu cầu mượn nào.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
