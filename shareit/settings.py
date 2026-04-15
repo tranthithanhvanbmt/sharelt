@@ -5,7 +5,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-insecure-shareit-dev-key"
-DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 
 allowed_hosts_env = os.getenv("ALLOWED_HOSTS", "")
 ALLOWED_HOSTS = [h.strip() for h in allowed_hosts_env.split(",") if h.strip()]

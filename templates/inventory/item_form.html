@@ -10,6 +10,11 @@
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form|crispy }}
+                    <div style="display: flex; justify-content: flex-start; margin-top: 20px;">
+                        <button type="submit" class="btn btn-success" style="font-weight: bold; padding: 10px 20px;">
+                            ✓ Xác nhận đăng bài
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

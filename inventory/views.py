@@ -7,10 +7,10 @@ from django.db.models import Q
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView
 
-from .forms import ItemForm, LoanRequestForm, MessageForm
-from .models import BorrowRequest, Conversation, Item
+from .forms import CommentForm, ItemForm, LoanRequestForm, MessageForm
+from .models import BorrowRequest, Comment, Conversation, Item
 
 
 def signup(request):
@@ -41,7 +41,7 @@ class ItemListView(ListView):
 
     def get_queryset(self):
         refresh_expired_requests()
-        queryset = Item.objects.select_related("owner").filter(is_available=True)
+        queryset = Item.objects.select_related("owner").filter(is_available=True, is_published=True)
         query = self.request.GET.get("q", "").strip()
         if query:
             queryset = queryset.filter(
@@ -91,7 +91,26 @@ class ItemDetailView(DetailView):
         context["approved_requests"] = item.borrow_requests.filter(
             status=BorrowRequest.Status.APPROVED
         ).select_related("borrower")
+        context["comments"] = item.comments.select_related("author")
+        context["comment_form"] = CommentForm()
         return context
+
+
+class ItemDeleteView(LoginRequiredMixin, DeleteView):
+    model = Item
+    template_name = "inventory/item_confirm_delete.html"
+    pk_url_kwarg = "item_id"
+    success_url = "/"
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.owner != self.request.user:
+            raise HttpResponseForbidden("Bạn không có quyền xóa món đồ này.")
+        return obj
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Đã xóa bài đăng thành công.")
+        return super().delete(request, *args, **kwargs)
 
 @login_required
 def request_loan(request, item_id):
@@ -213,3 +232,19 @@ def conversation_detail(request, request_id):
             "form": form,
         },
     )
+
+
+@login_required
+def create_comment(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.item = item
+            comment.author = request.user
+            comment.save()
+            messages.success(request, "Bình luận của bạn đã được đăng.")
+    
+    return redirect("item_detail", item_id=item.id)

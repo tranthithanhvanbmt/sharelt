@@ -16,6 +16,7 @@ class Item(models.Model):
     description = models.TextField(blank=True, verbose_name="Mô tả")
     category = models.CharField(max_length=120, blank=True, verbose_name="Danh mục")
     is_available = models.BooleanField(default=True, verbose_name="Sẵn sàng cho mượn")
+    is_published = models.BooleanField(default=False, verbose_name="Đã đăng lên trang chủ")
     image = models.ImageField(upload_to="items/", null=True, blank=True, verbose_name="Hình ảnh")
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -169,3 +170,28 @@ class Message(models.Model):
 
     def __str__(self):
         return f"{self.sender.username}: {self.content[:30]}"
+
+
+class Comment(models.Model):
+    item = models.ForeignKey(
+        Item,
+        on_delete=models.CASCADE,
+        related_name="comments",
+        verbose_name="Món đồ"
+    )
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Người bình luận"
+    )
+    content = models.TextField(verbose_name="Nội dung bình luận")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Bình luận"
+        verbose_name_plural = "Bình luận"
+
+    def __str__(self):
+        return f"{self.author.username}: {self.content[:30]}"
